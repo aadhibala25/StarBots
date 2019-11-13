@@ -35,9 +35,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+//Importing everything into Android studio. Same package as similar OpModes
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -55,13 +57,22 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
 //@Disabled
 public class SB_BasicOpMode_Iterative extends OpMode
+// Main class. It is inherited (or in Java, extended) from OpMode program. Anything defined in
+// OpMode is transferred here
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor armRotate = null;
+    private Servo claw = null;
+    static final double MAX_POS  =  1.0;     // Maximum rotational position
+    static final double MIN_POS  =  -1.0;     // Minimum rotational position
+    //double          clawOffset  = 0.0 ;                  // Servo mid position
+    //final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
 
+
+    //Predefined terms from importing other packages of sorts from FIRST
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -75,6 +86,9 @@ public class SB_BasicOpMode_Iterative extends OpMode
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         armRotate = hardwareMap.get(DcMotor.class, "arm_rotate");
+        claw = hardwareMap.get(Servo.class, "claw_grip");
+        double  clawPosition = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+        boolean rampUp = true;
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -110,19 +124,23 @@ public class SB_BasicOpMode_Iterative extends OpMode
         double leftPower;
         double rightPower;
         double armPower;
+        double clawHold;
 
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
+        // Defining buttons on PS4 controller.
         double drive = gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
         double rotate = gamepad2.left_stick_y * 0.25;
+        double hold = gamepad2.right_trigger * 0.5;
+
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        armPower       = Range.clip(rotate, -0.25, 0.25) ;
-
+        armPower     = Range.clip(rotate, -0.25, 0.25) ;
+        clawHold     = Range.clip(hold, 0.5, -0.5) ;
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         // leftPower  = -gamepad1.left_stick_y ;
@@ -132,11 +150,13 @@ public class SB_BasicOpMode_Iterative extends OpMode
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
         armRotate.setPower(armPower);
+        claw.setPosition(clawHold);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
         telemetry.addData("Motors", "armPower (%.2f)", armPower);
+        telemetry.addData("Servo", "clawHold (%.2f)", clawHold);
     }
 
     /*
