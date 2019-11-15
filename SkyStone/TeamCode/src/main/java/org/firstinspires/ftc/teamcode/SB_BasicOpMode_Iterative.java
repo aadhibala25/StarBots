@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@TeleOp(name="Basic: Iterative OpMode", group="StarBots")
 //@Disabled
 public class SB_BasicOpMode_Iterative extends OpMode
 // Main class. It is inherited (or in Java, extended) from OpMode program. Anything defined in
@@ -66,8 +66,8 @@ public class SB_BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
     private DcMotor armRotate = null;
     private Servo claw = null;
-    static final double MAX_POS  =  1.0;     // Maximum rotational position
-    static final double MIN_POS  =  -1.0;     // Minimum rotational position
+    private static final double MAX_POS  =  1.0;     // Maximum rotational position
+    private static final double MIN_POS  =  -1.0;     // Minimum rotational position
     //double          clawOffset  = 0.0 ;                  // Servo mid position
     //final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
 
