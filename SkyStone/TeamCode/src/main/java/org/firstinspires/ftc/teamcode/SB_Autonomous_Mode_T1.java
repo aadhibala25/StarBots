@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="SB_Autonomous_Mode_T1", group="StarBots")
+//@Disabled
 public class SB_Autonomous_Mode_T1 extends LinearOpMode {
     //
     DcMotor left;
@@ -33,18 +35,26 @@ public class SB_Autonomous_Mode_T1 extends LinearOpMode {
     BNO055IMU imu;
     Orientation angles;
     Acceleration gravity;
+    double turn_right = 0.5;
+    double turn_left = -0.5;
+    double move_speed = 0.5;
+    double ninety = 90;
+    double feet = 12;
     //
     public void runOpMode(){
         //
         initGyro();
         //
-        left = hardwareMap.dcMotor.get("left");
-        right = hardwareMap.dcMotor.get("right");
-        right.setDirection(DcMotorSimple.Direction.REVERSE);//If your robot goes backward, switch this from right to left
+        left = hardwareMap.dcMotor.get("left_drive");
+        right = hardwareMap.dcMotor.get("right_drive");
+        left.setDirection(DcMotor.Direction.REVERSE);
+        right.setDirection(DcMotor.Direction.FORWARD);
         //
         waitForStartify();
         //
-
+        moveToPosition(feet, move_speed);
+        turnWithGyro(ninety, turn_right);
+        moveToPosition(feet*2, move_speed);
     }
     //
     /*
@@ -52,6 +62,7 @@ public class SB_Autonomous_Mode_T1 extends LinearOpMode {
     To drive backward, simply make the inches input negative.
      */
     public void moveToPosition(double inches, double speed){
+
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //

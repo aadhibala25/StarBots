@@ -29,12 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -50,14 +50,28 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@Autonomous(name="Autonomous UnderBridge", group="StarBots")
 //@Disabled
-public class SB_BasicOpMode_Linear extends LinearOpMode {
+public class SB_Autonomous_Mode_T0 extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
+    static final int    CYCLE_MS    =   50;     // period of each cycle
+    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
+    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private DcMotor armRotate = null;
+    private Servo claw = null;
+    private static final double MAX_POS  =  1.0;     // Maximum rotational position
+    private static final double MIN_POS  =  -1.0;     // Minimum rotational position
+    private static double distance = 0;
+
+    // Define class members
+    double  power   = 0;
+    boolean rampUp  = true;
 
     @Override
     public void runOpMode() {
@@ -69,46 +83,55 @@ public class SB_BasicOpMode_Linear extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        armRotate = hardwareMap.get(DcMotor.class, "arm_rotate");
+        claw = hardwareMap.get(Servo.class, "claw_grip");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        armRotate.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        distance++;
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        while(distance <= 6) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
+            // Ramp the motors, according to the rampUp variable.
+            if (rampUp) {
+                // Keep stepping up until we hit the max value.
+                power += INCREMENT ;
+                if (power >= MAX_FWD ) {
+                    power = MAX_FWD;
+                    power = MAX_FWD;
+                    power = MAX_FWD;
+                    rampUp = !rampUp;   // Switch ramp direction
+                }
+            }
+            else {
+                // Keep stepping down until we hit the min value.
+                power -= INCREMENT ;
+                if (power <= MAX_REV ) {
+                    power = MAX_REV;
+                    rampUp = !rampUp;  // Switch ramp direction
+                }
+            }
 
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            // leftPower  = -gamepad1.left_stick_y ;
-            // rightPower = -gamepad1.right_stick_y ;
-
-            // Send calculated power to wheels
-            leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            // Display the current value
+            telemetry.addData("Motor Power", "%5.2f", power);
+            telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
+
+            // Set the motor to the new power and pause;
+            leftDrive.setPower(power);
+            rightDrive.setPower(power);
+            //armRotate.setPower(power);
+            sleep(CYCLE_MS);
+            idle();
         }
+        distance = 10;
     }
 }

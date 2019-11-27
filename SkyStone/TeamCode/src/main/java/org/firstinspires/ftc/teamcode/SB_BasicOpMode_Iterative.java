@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Iterative OpMode", group="StarBots")
+@TeleOp(name="Iterative TeleOpMode", group="StarBots")
 //@Disabled
 public class SB_BasicOpMode_Iterative extends OpMode
 // Main class. It is inherited (or in Java, extended) from OpMode program. Anything defined in
