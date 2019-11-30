@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -58,8 +59,8 @@ public class SB_Autonomous_Mode_T0 extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
-    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+    static final double MAX_FWD     =  0.025;     // Maximum FWD power applied to motor
+    static final double MAX_REV     = -0.025;     // Maximum REV power applied to motor
 
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
@@ -68,13 +69,14 @@ public class SB_Autonomous_Mode_T0 extends LinearOpMode {
     private static final double MAX_POS  =  1.0;     // Maximum rotational position
     private static final double MIN_POS  =  -1.0;     // Minimum rotational position
     private static double distance = 0;
+    double clawHold;
 
     // Define class members
     double  power   = 0;
     boolean rampUp  = true;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -85,53 +87,41 @@ public class SB_Autonomous_Mode_T0 extends LinearOpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         armRotate = hardwareMap.get(DcMotor.class, "arm_rotate");
         claw = hardwareMap.get(Servo.class, "claw_grip");
+        clawHold     = Range.clip(-0.25, 0.5, -0.5) ;
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         armRotate.setDirection(DcMotor.Direction.FORWARD);
+        claw.setPosition(clawHold);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
-        distance++;
+        //runtime.reset();
+        //distance++;
 
-        // run until the end of the match (driver presses STOP)
-        while(distance <= 6) {
+        //Go Forward
+        leftDrive.setPower(1.0);
+        rightDrive.setPower(1.0);
+        Thread.sleep(500);
 
-            // Ramp the motors, according to the rampUp variable.
-            if (rampUp) {
-                // Keep stepping up until we hit the max value.
-                power += INCREMENT ;
-                if (power >= MAX_FWD ) {
-                    power = MAX_FWD;
-                    power = MAX_FWD;
-                    power = MAX_FWD;
-                    rampUp = !rampUp;   // Switch ramp direction
-                }
-            }
-            else {
-                // Keep stepping down until we hit the min value.
-                power -= INCREMENT ;
-                if (power <= MAX_REV ) {
-                    power = MAX_REV;
-                    rampUp = !rampUp;  // Switch ramp direction
-                }
-            }
+        //Turn Left
+        leftDrive.setPower(1.0);
+        rightDrive.setPower(-1.0);
+        Thread.sleep(500);
 
-            // Display the current value
-            telemetry.addData("Motor Power", "%5.2f", power);
-            telemetry.addData(">", "Press Stop to end test." );
-            telemetry.update();
+        // Display the current value
+        telemetry.addData("Motor Power", "%5.2f", power);
+        telemetry.addData(">", "Press Stop to end test." );
+        telemetry.update();
 
-            // Set the motor to the new power and pause;
-            leftDrive.setPower(power);
-            rightDrive.setPower(power);
-            //armRotate.setPower(power);
-            sleep(CYCLE_MS);
-            idle();
+        // Set the motor to the new power and pause;
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
+        //armRotate.setPower(power);
+        sleep(CYCLE_MS);
+        idle();
         }
-        distance = 10;
-    }
+
 }
