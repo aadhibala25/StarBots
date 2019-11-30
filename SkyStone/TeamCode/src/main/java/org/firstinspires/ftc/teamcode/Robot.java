@@ -21,6 +21,12 @@ public class Robot {
     public static final double MAX_POS  =  1.0;     // Maximum rotational position
     public static final double MIN_POS  =  -1.0;
 
+    /**
+     * Constructor that initializes the robot and all of its components and data members
+     *
+     * @param hardwareMap the HardwareMap object declared in the OpMode super class
+     * @param telemetry the Telemetry object declared in the OpMode super class
+     */
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -37,7 +43,7 @@ public class Robot {
     }
 
     /**
-     * Sets the power sent to the left and right motors based on the desired drive and turn powers.
+     * Sets the power sent to the left and right motors based on the desired drive and turn powers
      *
      * @param drivePower the desired drive power: + for forward, - for reverse
      * @param turnPower the desired turn power: + for right, - for left
@@ -57,9 +63,9 @@ public class Robot {
     }
 
     /**
+     * Sets power to the arm motors based on the desired arm power
      *
-     *
-     * @param power amount of power to be sent to the arm motor
+     * @param power desired amount of power to be sent to the arm motor
      */
     public void setArmPower(double power) {
         power = Range.clip(power, -0.25, 0.25);
@@ -67,6 +73,11 @@ public class Robot {
         telemetry.addData("Motors", "armPower (%.2f)", power);
     }
 
+    /**
+     * Sets the position of the claw based on the desired claw position value
+     *
+     * @param hold desired hold position of the claw, between -0.5 and 0.5
+     */
     public void setClaw(double hold) {
         hold = Range.clip(hold, -0.5, 0.5);
         claw.setPosition(hold);
