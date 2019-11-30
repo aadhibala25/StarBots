@@ -30,8 +30,18 @@ public class Robot {
         claw = hardwareMap.get(Servo.class, "claw_grip");
         double  clawPosition = (MAX_POS - MIN_POS) / 2; // Start at halfway position
         boolean rampUp = true;
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        armRotate.setDirection(DcMotor.Direction.FORWARD);
+        telemetry.addData("Status", "Initialized");
     }
 
+    /**
+     * Sets the power sent to the left and right motors based on the desired drive and turn powers.
+     *
+     * @param drivePower the desired drive power: + for forward, - for reverse
+     * @param turnPower the desired turn power: + for right, - for left
+     */
     public void setMovePower(double drivePower, double turnPower) {
         // Calculate left and right wheel powers
         double leftPower = Range.clip(drivePower + turnPower, -1.0, 1.0);
@@ -44,6 +54,17 @@ public class Robot {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+    }
+
+    /**
+     *
+     *
+     * @param power amount of power to be sent to the arm motor
+     */
+    public void setArmPower(double power) {
+        power = Range.clip(power, -0.25, 0.25);
+        armRotate.setPower(power);
+        telemetry.addData("Motors", "armPower (%.2f)", power);
     }
 
     public void setClaw(double hold) {
