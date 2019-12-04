@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Ramp Up OpMode", group="StarBots")
-//@Disabled
+@Disabled
 public class SB_BasicOpMode_RampUp extends LinearOpMode {
 
     // Declare OpMode members.

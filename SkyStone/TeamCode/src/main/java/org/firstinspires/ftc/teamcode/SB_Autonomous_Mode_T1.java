@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="SB_Autonomous_Mode_T1", group="StarBots")
-//@Disabled
+@Disabled
 public class SB_Autonomous_Mode_T1 extends LinearOpMode {
     //
     DcMotor left;

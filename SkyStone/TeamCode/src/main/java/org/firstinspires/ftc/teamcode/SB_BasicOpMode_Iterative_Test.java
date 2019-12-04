@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+//@TeleOp(name="TEST Iterative TeleOpMode", group="StarBots")
+@Disabled
 public class SB_BasicOpMode_Iterative_Test extends OpMode {
 
-    Robot robot;
+    private Robot robot;
+    boolean clawGrabbed = true;
 
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
@@ -28,14 +29,33 @@ public class SB_BasicOpMode_Iterative_Test extends OpMode {
     @Override
     public void loop() {
         // Reads input from conntrollers
+//        double drive = gamepad1.left_trigger - gamepad1.right_trigger;
         double drive = gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
-        double armPower = gamepad2.left_stick_y * 0.25;
-        double hold = gamepad2.right_trigger * 0.5;
+        double armPower = gamepad2.left_stick_y * 0.3;
 
-        // Sets values of
+        // Reverse & slow mode
+        if (gamepad1.right_trigger >= 0.25) {
+            drive *= 0.35;
+            turn *= 0.4;
+        }
+        if (gamepad1.left_trigger >= 0.25) {
+            drive *= -1;
+        }
+
+        // Opens/closes claws
+        if (!clawGrabbed) {
+            if (gamepad2.right_bumper)
+                clawGrabbed = true;
+        }
+        if (clawGrabbed) {
+            if (gamepad2.left_bumper)
+                clawGrabbed = false;
+        }
+
+        // Sets values of motors/servos
         robot.setMovePower(drive, turn);
         robot.setArmPower(armPower);
-        robot.setClaw(hold);
+        robot.setClaw(clawGrabbed ? 0 : 0.5);
     }
 }

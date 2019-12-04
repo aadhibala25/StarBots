@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,8 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Robot {
 
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
+    private HardwareMap hardwareMap;
+    private Telemetry telemetry;
 
     public ElapsedTime runtime = new ElapsedTime();
     public final DcMotor leftDrive;

@@ -102,14 +102,20 @@ public class SB_Autonomous_Mode_T0 extends LinearOpMode {
         //distance++;
 
         //Go Forward
-        leftDrive.setPower(1.0);
-        rightDrive.setPower(1.0);
-        Thread.sleep(500);
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(0.5);
+        Thread.sleep(300);
 
         //Turn Left
+        leftDrive.setPower(-1.0);
+        rightDrive.setPower(1.0);
+        Thread.sleep(1200);
+
+        //Go Forward
         leftDrive.setPower(1.0);
-        rightDrive.setPower(-1.0);
-        Thread.sleep(500);
+        rightDrive.setPower(1.0);
+        Thread.sleep(2000);
+
 
         // Display the current value
         telemetry.addData("Motor Power", "%5.2f", power);
