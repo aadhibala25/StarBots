@@ -58,6 +58,17 @@ import com.qualcomm.robotcore.util.Range;
 @Disabled
 public class Aadhi_TeleOp_Mode extends OpMode {
 
+    double leftPower;
+    double rightPower;
+    double armPower;
+    double clawHold;
+
+    double drive = gamepad1.left_stick_y;
+    double turn = gamepad1.right_stick_x;
+    double rotate = gamepad2.left_stick_y * 0.25;
+    double hold = gamepad2.right_trigger * 0.25;
+
+
 
 
     public void init(){ }

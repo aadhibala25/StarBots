@@ -51,9 +51,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous UnderBridge", group="StarBots")
+@Autonomous(name="Autonomous RightBridge", group="StarBots")
 //@Disabled
-public class SB_Autonomous_Mode_T0 extends LinearOpMode {
+public class SB_Auto_RightBridge extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -101,20 +101,23 @@ public class SB_Autonomous_Mode_T0 extends LinearOpMode {
         //runtime.reset();
         //distance++;
 
+        //Sleep for a second
+        Thread.sleep(1000);
+
         //Go Forward
         leftDrive.setPower(0.5);
         rightDrive.setPower(0.5);
         Thread.sleep(300);
 
-        //Turn Left
-        leftDrive.setPower(-1.0);
-        rightDrive.setPower(1.0);
-        Thread.sleep(1200);
+        //Turn Right
+        leftDrive.setPower(-7.0);
+        rightDrive.setPower(7.0);
+        Thread.sleep(600);
 
         //Go Forward
-        leftDrive.setPower(1.0);
-        rightDrive.setPower(1.0);
-        Thread.sleep(2000);
+        leftDrive.setPower(0.6);
+        rightDrive.setPower(0.6);
+        Thread.sleep(700);
 
 
         // Display the current value
