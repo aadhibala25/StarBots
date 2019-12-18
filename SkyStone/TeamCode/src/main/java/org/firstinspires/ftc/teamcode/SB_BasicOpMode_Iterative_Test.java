@@ -13,7 +13,7 @@ public class SB_BasicOpMode_Iterative_Test extends OpMode {
 
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
-        robot.setClaw(0);
+        robot.setClaw(0.0);
     }
 
     /*
