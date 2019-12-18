@@ -88,6 +88,7 @@ public class SB_Auto_RightBridge extends LinearOpMode {
         armRotate = hardwareMap.get(DcMotor.class, "arm_rotate");
         claw = hardwareMap.get(Servo.class, "claw_grip");
         clawHold     = Range.clip(-0.25, 0.5, -0.5) ;
+        //clawHold     = Range.clip(0, 0, 0) ;
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -110,13 +111,13 @@ public class SB_Auto_RightBridge extends LinearOpMode {
         Thread.sleep(300);
 
         //Turn Right
-        leftDrive.setPower(-7.0);
-        rightDrive.setPower(7.0);
+        leftDrive.setPower(-0.9);
+        rightDrive.setPower(0.9);
         Thread.sleep(600);
 
         //Go Forward
-        leftDrive.setPower(0.6);
-        rightDrive.setPower(0.6);
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(0.5);
         Thread.sleep(700);
 
 

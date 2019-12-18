@@ -95,6 +95,7 @@ public class SB_BasicOpMode_Iterative extends OpMode
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         armRotate.setDirection(DcMotor.Direction.FORWARD);
+        claw.setPosition(0);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");

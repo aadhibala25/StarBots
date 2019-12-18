@@ -109,13 +109,13 @@ public class SB_Auto_LeftBridge extends LinearOpMode {
         Thread.sleep(300);
 
         //Turn Left
-        leftDrive.setPower(0.1);
-        rightDrive.setPower(-0.1);
+        leftDrive.setPower(0.9);
+        rightDrive.setPower(-0.9);
         Thread.sleep(600);
 
         //Go Forward
-        leftDrive.setPower(0.6);
-        rightDrive.setPower(0.6);
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(0.5);
         Thread.sleep(900);
 
 
