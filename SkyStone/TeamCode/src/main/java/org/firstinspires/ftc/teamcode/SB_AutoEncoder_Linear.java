@@ -72,6 +72,7 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
     SB_Push_Robot         robot   = new SB_Push_Robot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
+    //static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
@@ -81,14 +82,13 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
     static final double     TURN_SPEED              = 0.5;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
 
         /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
@@ -96,8 +96,10 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
         robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
@@ -110,11 +112,23 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  6,  6, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        //encoderDrive(TURN_SPEED,   12, -12, 2.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        //encoderDrive(DRIVE_SPEED, 24, 24, 2.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        robot.setClawMove(false ? 0 : 0.5);
+        encoderDrive(DRIVE_SPEED,  18,  18, 2.2);  // S1: Forward 18 Inches with 2 Sec timeout
+        robot.setClawMove(true ? 0 : 0.5);
+        encoderDrive(DRIVE_SPEED,  -6,  -6, 1.0);  // S1: Reverse 6 Inches with 1 Sec timeout
 
-        robot.claw.setPosition(1.0);            // S4: Stop and close the claw.
+        //Turn Right
+        robot.leftDrive.setPower(-0.9);
+        robot.rightDrive.setPower(0.9);
+        Thread.sleep(600);
+
+        //Go Forward
+        robot.leftDrive.setPower(0.5);
+        robot.rightDrive.setPower(0.5);
+        Thread.sleep(700);
+
+
+        robot.claw0.setPosition(1.0);            // S4: Stop and close the claw.
         sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
@@ -138,15 +152,17 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
+            double currentInches = 0;
+
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightDrive.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             robot.leftDrive.setTargetPosition(newLeftTarget);
             robot.rightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -159,22 +175,33 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&
-                   (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
+            while (opModeIsActive()) {
+                if ((runtime.seconds() < timeoutS) && (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            robot.leftDrive.getCurrentPosition(),
-                                            robot.rightDrive.getCurrentPosition());
-                telemetry.update();
+                    currentInches = robot.leftDrive.getCurrentPosition() / COUNTS_PER_INCH;
+
+                    if (currentInches < 0) {
+                        currentInches = currentInches * -1;
+                    }
+
+                    // Display it for the driver.
+                    telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                    telemetry.addData("Path2", "Running at %7d :%7d",
+                            robot.leftDrive.getCurrentPosition(),
+                            robot.rightDrive.getCurrentPosition());
+                    telemetry.addData("Inches Traveled", "Current Inches Traveled: %7f", currentInches);
+                    telemetry.update();
+                    if (currentInches >= newLeftTarget) {
+                        break;
+                    }
+                }
             }
+
 
             // Stop all motion;
             robot.leftDrive.setPower(0);
             robot.rightDrive.setPower(0);
-            robot.claw.setPosition(0.0);
+            robot.claw0.setPosition(0.0);
 
             // Turn off RUN_TO_POSITION
             robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

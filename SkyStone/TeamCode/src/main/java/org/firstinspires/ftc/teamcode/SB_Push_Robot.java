@@ -29,10 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * This is NOT an opmode.
@@ -50,13 +52,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
+@Disabled
 public class SB_Push_Robot
 {
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;
     public DcMotor  rightDrive  = null;
     public DcMotor  arm     = null;
-    public Servo    claw    = null;
+    public Servo    claw0    = null;
+    public Servo    claw1    = null;
+    public Servo    claw2    = null;
     //public Servo    rightClaw   = null;
 
     public static final double CLOSE_SERVO       =  0.0 ;
@@ -82,6 +87,9 @@ public class SB_Push_Robot
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         arm    = hwMap.get(DcMotor.class, "arm_rotate");
+        claw0  = hwMap.get(Servo.class, "claw_grip");
+        claw1    = hwMap.get(Servo.class, "claw_move1");
+        claw2    = hwMap.get(Servo.class, "claw_move2");
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -97,8 +105,15 @@ public class SB_Push_Robot
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        claw  = hwMap.get(Servo.class, "claw_grip");
-        claw.setPosition(CLOSE_SERVO);
+        claw0.setPosition(CLOSE_SERVO);
     }
- }
+
+    public void setClawMove(double hold) {
+        hold = Range.clip(hold, -0.5, 0.5);
+        claw1.setPosition(hold);
+        claw2.setPosition(hold);
+        //telemetry.addData("Servo", "clawMove (%.2f)", hold);
+    }
+
+}
 

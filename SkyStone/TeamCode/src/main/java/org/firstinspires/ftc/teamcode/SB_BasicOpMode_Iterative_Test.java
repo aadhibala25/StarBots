@@ -10,10 +10,12 @@ public class SB_BasicOpMode_Iterative_Test extends OpMode {
 
     private Robot robot;
     boolean clawGrabbed = true;
+    boolean clawPush = true;
 
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
-        robot.setClaw(0.0);
+        robot.setClawGrab(0.0);
+        robot.setClawMove(0.0);
     }
 
     /*
@@ -54,9 +56,24 @@ public class SB_BasicOpMode_Iterative_Test extends OpMode {
                 clawGrabbed = false;
         }
 
+
+        // Opens/closes claws
+
+        if (!clawPush) {
+            if (gamepad2.b)
+                clawPush = true;
+        }
+        if (clawPush) {
+            if (gamepad2.a)
+                clawPush = false;
+        }
+
+
+
         // Sets values of motors/servos
         robot.setMovePower(drive, turn);
         robot.setArmPower(armPower);
-        robot.setClaw(clawGrabbed ? 0 : 0.5);
+        robot.setClawGrab(clawGrabbed ? 0 : 0.5);
+        robot.setClawMove(clawPush ? 0 : 0.5);
     }
 }

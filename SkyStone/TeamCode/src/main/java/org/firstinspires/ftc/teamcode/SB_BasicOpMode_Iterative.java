@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Iterative TeleOpMode", group="StarBots")
-//@Disabled
+@Disabled
 public class SB_BasicOpMode_Iterative extends OpMode
 // Main class. It is inherited (or in Java, extended) from OpMode program. Anything defined in
 // OpMode is transferred here

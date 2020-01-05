@@ -18,7 +18,9 @@ public class Robot {
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
     public final DcMotor armRotate;
-    public final Servo claw;
+    public final Servo claw_grab;
+    public final Servo claw_move1;
+    public final Servo claw_move2;
     public static final double MAX_POS  =  1.0;     // Maximum rotational position
     public static final double MIN_POS  =  -1.0;
 
@@ -34,7 +36,9 @@ public class Robot {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         armRotate = hardwareMap.get(DcMotor.class, "arm_rotate");
-        claw = hardwareMap.get(Servo.class, "claw_grip");
+        claw_grab = hardwareMap.get(Servo.class, "claw_grip");
+        claw_move1 = hardwareMap.get(Servo.class, "claw_move1");
+        claw_move2 = hardwareMap.get(Servo.class, "claw_move2");
         double  clawPosition = (MAX_POS - MIN_POS) / 2; // Start at halfway position
         boolean rampUp = true;
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -79,9 +83,21 @@ public class Robot {
      *
      * @param hold desired hold position of the claw, between -0.5 and 0.5
      */
-    public void setClaw(double hold) {
+    public void setClawGrab(double hold) {
         hold = Range.clip(hold, -0.5, 0.5);
-        claw.setPosition(hold);
+        claw_grab.setPosition(hold);
         telemetry.addData("Servo", "clawHold (%.2f)", hold);
     }
+
+     /** Sets the position of the claw based on the desired claw position value
+     *
+             * @param hold desired hold position of the claw, between -0.5 and 0.5
+            */
+    public void setClawMove(double hold) {
+        hold = Range.clip(hold, -0.5, 0.5);
+        claw_move1.setPosition(hold);
+        claw_move2.setPosition(hold);
+        telemetry.addData("Servo", "clawMove (%.2f)", hold);
+    }
+
 }
