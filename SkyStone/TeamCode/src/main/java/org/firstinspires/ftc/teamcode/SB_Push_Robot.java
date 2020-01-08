@@ -106,6 +106,13 @@ public class SB_Push_Robot
 
         // Define and initialize ALL installed servos.
         claw0.setPosition(CLOSE_SERVO);
+        claw1.setPosition(1.0);
+    }
+
+    public void move (double left, double right, long millis) throws InterruptedException{
+        leftDrive.setPower(left);
+        rightDrive.setPower(right);
+        Thread.sleep(300);
     }
 
     public void setClawMove(double hold) {

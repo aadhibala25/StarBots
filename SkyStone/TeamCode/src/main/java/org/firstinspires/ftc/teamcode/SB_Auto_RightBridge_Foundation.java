@@ -31,10 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -50,9 +47,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SB_Foundation_LB", group="StarBots")
+@Autonomous(name="SB_Foundation_RB", group="StarBots")
 //@Disabled
-public class SB_Auto_LeftBridge_Foundation extends LinearOpMode {
+public class SB_Auto_RightBridge_Foundation extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -101,11 +98,11 @@ public class SB_Auto_LeftBridge_Foundation extends LinearOpMode {
 
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(500);
-        robot.move(-1.0, 1.0, 800);     //Turn Right
+        robot.move(1.0, -1.0, 800);     //Turn Left
         Thread.sleep(500);
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(500);
-        robot.move(1.0, -1.0, 800);     //Turn Left
+        robot.move(-1.0, 1.0, 800);     //Turn Right
         Thread.sleep(550);
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(300);
@@ -127,7 +124,7 @@ public class SB_Auto_LeftBridge_Foundation extends LinearOpMode {
         telemetry.update();
 
         robot.move(0.0, 0.0, 100);      //Stop Robot
-        robot.move(1.0, -1.0, 800);     //Turn Left
+        robot.move(-1.0, 1.0, 800);     //Turn Right
         Thread.sleep(500);
         robot.move(1.0, 1.0, 1000);      //Go to Bridge
         Thread.sleep(800);
