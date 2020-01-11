@@ -47,11 +47,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Foundation_RightBridge", group="StarBots")
+@Autonomous(name="Str_Foundation_LeftBridge", group="StarBots")
 //@Disabled
-public class SB_Auto_RightBridge_Foundation extends LinearOpMode {
+public class SB_Auto_LeftBridge_Foundation_Straight extends LinearOpMode {
 
-    // Declare OpMode members.
+    // Define OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -97,16 +97,16 @@ public class SB_Auto_RightBridge_Foundation extends LinearOpMode {
         robot.setClawMove(true ? 0 : 1.0);              //Open Claw
         Thread.sleep(1000);
 
-        robot.move(0.5, 0.5, 300);      //Go Forward
+        robot.move(0.3, 0.8, 300);      //Go Forward
         Thread.sleep(500);
-        robot.move(1.0, -1.0, 800);     //Turn Left
-        Thread.sleep(500);
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(500);
-        robot.move(-1.0, 1.0, 800);     //Turn Right
-        Thread.sleep(550);
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(300);
+        //robot.move(-1.0, 1.0, 800);     //Turn Right
+        //Thread.sleep(500);
+        //robot.move(0.5, 0.5, 300);      //Go Forward
+        //Thread.sleep(500);
+        //robot.move(1.0, -1.0, 800);     //Turn Left
+        //Thread.sleep(550);
+        robot.move(0.8, 0.3, 300);      //Go Forward
+        Thread.sleep(650);
         robot.move(0.0, 0.0, 100);      //Stop Robot
         robot.setClawMove(false ? 0 : 1.0);             //Close Claw
         Thread.sleep(1500);
@@ -115,9 +115,9 @@ public class SB_Auto_RightBridge_Foundation extends LinearOpMode {
         telemetry.update();
 
         robot.move(-0.25, -0.25, 5000);      //Pull Foundation back
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        Thread.sleep(2500);
+        Thread.sleep(3000);
         robot.move(0.0, 0.0, 100);      //Stop Robot
         robot.setClawMove(true ? 0 : 1.0);             //Open Claw
         Thread.sleep(500);
@@ -125,12 +125,11 @@ public class SB_Auto_RightBridge_Foundation extends LinearOpMode {
         telemetry.addData("Pull End Time", "%5.2f", getRuntime() );
         telemetry.update();
 
-        robot.move(-1.0, 1.0, 800);     //Turn Right
+        robot.move(1.0, -1.0, 1000);     //Turn Left
         Thread.sleep(500);
         robot.move(1.0, 1.0, 1000);      //Go to Bridge
-        Thread.sleep(800);
+        Thread.sleep(700);
 
-        // Display the current value
         telemetry.addData("Auto End Time", "%5.2f", getRuntime() );
         telemetry.update();
 

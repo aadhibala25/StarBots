@@ -96,8 +96,8 @@ public class Robot {
     public void setClawMove(double hold) {
         hold = Range.clip(hold, -0.5, 0.5);
         claw_move1.setPosition(hold);
+        telemetry.addData("Servo", "clawMove1 (%.2f)", hold);
         claw_move2.setPosition(hold);
-        telemetry.addData("Servo", "clawMove (%.2f)", hold);
-    }
+        telemetry.addData("Servo", "clawMove2 (%.2f)", hold);    }
 
 }

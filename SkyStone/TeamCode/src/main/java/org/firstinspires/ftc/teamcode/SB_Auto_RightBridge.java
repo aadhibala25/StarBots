@@ -51,13 +51,13 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous RightBridge", group="StarBots")
+@Autonomous(name="Park RightBridge", group="StarBots")
 //@Disabled
 public class SB_Auto_RightBridge extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
+    static final double INCREMENT   = 01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
     static final double MAX_FWD     =  0.025;     // Maximum FWD power applied to motor
     static final double MAX_REV     = -0.025;     // Maximum REV power applied to motor
