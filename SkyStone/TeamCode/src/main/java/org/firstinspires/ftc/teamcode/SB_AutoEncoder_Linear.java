@@ -65,7 +65,7 @@ import org.firstinspires.ftc.teamcode.SB_Push_Robot;
  */
 
 @Autonomous(name="SB_Auto_Encoder", group="StarBots")
-//@Disabled
+@Disabled
 public class SB_AutoEncoder_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */

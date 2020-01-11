@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="SB_Autonomous_Test", group="StarBots")
-//@Disabled
+@Disabled
 public class SB_Autonomous_Test extends OpMode {
 
     final double INCHES_TO_TICS = 1440 / (4 * Math.PI);

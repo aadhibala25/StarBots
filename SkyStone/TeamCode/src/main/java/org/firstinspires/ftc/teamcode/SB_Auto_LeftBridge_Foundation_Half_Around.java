@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -48,11 +47,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Slow_Foundation_Red", group="StarBots")
-@Disabled
-public class SB_Auto_LeftBridge_Foundation_Slow extends LinearOpMode {
+@Autonomous(name="HalfArd_Foundation_Red", group="StarBots")
+//@Disabled
+public class SB_Auto_LeftBridge_Foundation_Half_Around extends LinearOpMode {
 
-    // Declare OpMode members.
+    // Define OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -92,49 +91,60 @@ public class SB_Auto_LeftBridge_Foundation_Slow extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        telemetry.addData("Pull Start Time", "%5.2f", getRuntime() );
+        telemetry.addData("Auto Start Time", "%5.2f", getRuntime() );
         telemetry.update();
 
         robot.setClawMove(true ? 0 : 1.0);              //Open Claw
         Thread.sleep(1000);
 
-        robot.move(0.5, 0.5, 300);      //Go Forward
+        robot.move(0.2, 0.8, 300);      //Go Forward Rightish
         Thread.sleep(500);
-        robot.move(-5.0, 5.0, 300);     //Turn Right
-        Thread.sleep(1000);
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(500);
-        robot.move(0.5, -0.5, 300);     //Turn Left
-        Thread.sleep(1050);
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(400);
+
+        robot.move(0.9, 0.2, 300);      //Go Forward Leftish
+        Thread.sleep(650);
         robot.move(0.0, 0.0, 100);      //Stop Robot
         robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        Thread.sleep(1200);
+        Thread.sleep(1000);
 
         telemetry.addData("Pull Start Time", "%5.2f", getRuntime() );
         telemetry.update();
 
-        robot.move(-0.25, -0.25, 500);      //Pull Foundation back
-        Thread.sleep(4000);
-        robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        Thread.sleep(4000);
-
-        robot.move(0.0, 0.0, 100);      //Stop Robot
+        robot.move(-0.25, -0.25, 1000);      //Pull Foundation back
+        Thread.sleep(7000);
+        //robot.setClawMove(false ? 0 : 1.0);             //Close Claw
+        //Thread.sleep(3000);
         robot.setClawMove(true ? 0 : 1.0);             //Open Claw
         Thread.sleep(500);
+        robot.move(0.0, 0.0, 100);      //Stop Robot
 
         telemetry.addData("Pull End Time", "%5.2f", getRuntime() );
         telemetry.update();
 
-        robot.move(0.5, -0.5, 800);     //Turn Left
-        Thread.sleep(1000);
-        robot.move(1.0, 1.0, 1000);      //Go to Bridge
-        Thread.sleep(800);
+        robot.move(1.0, -1.0, 700);     //Turn Left
+        Thread.sleep(500);
 
-        // Display the current value
-        telemetry.addData("Motor Power", "%5.2f", power);
-        telemetry.addData(">", "Press Stop to end test." );
+        robot.move(0.5, 0.5, 700);      //Go Forward
+        Thread.sleep(1300);
+
+        robot.setClawMove(false ? 0 : 1.0);             //Close Claw
+        Thread.sleep(200);
+
+        robot.move(-1.0, 1.0, 800);     //Turn Right
+        Thread.sleep(500);
+
+        robot.move(0.5, 0.5, 300);      //Go Forward
+        Thread.sleep(600);
+
+        robot.move(-1.0, 1.0, 800);     //Turn Right
+        Thread.sleep(500);
+
+        robot.move(0.5, 0.5, 300);      //Go Forward
+        Thread.sleep(500);
+
+        robot.move(-0.5, -0.5, 1000);      //Go Backward
+        Thread.sleep(1200);
+
+        telemetry.addData("Auto End Time", "%5.2f", getRuntime() );
         telemetry.update();
 
         // Set the motor to the new power and pause;

@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Park LeftBridge", group="StarBots")
+@Autonomous(name="Park_Red", group="StarBots")
 //@Disabled
 public class SB_Auto_LeftBridge extends LinearOpMode {
 

@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,8 +48,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Str_Foundation_LeftBridge", group="StarBots")
-//@Disabled
+@Autonomous(name="Str_Foundation_Red", group="StarBots")
+@Disabled
 public class SB_Auto_LeftBridge_Foundation_Straight extends LinearOpMode {
 
     // Define OpMode members.
