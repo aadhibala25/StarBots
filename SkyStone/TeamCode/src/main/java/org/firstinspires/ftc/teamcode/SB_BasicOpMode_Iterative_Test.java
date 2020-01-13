@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TEST Iterative TeleOpMode", group="StarBots")
+@TeleOp(name="StarBots TeleOpMode", group="StarBots")
 //@Disabled
 public class SB_BasicOpMode_Iterative_Test extends OpMode {
 

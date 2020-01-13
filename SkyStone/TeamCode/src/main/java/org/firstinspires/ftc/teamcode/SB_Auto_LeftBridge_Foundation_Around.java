@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Ard_Foundation_Red", group="StarBots")
+@Autonomous(name="Around_Foundation_Red", group="StarBots")
 //@Disabled
 public class SB_Auto_LeftBridge_Foundation_Around extends LinearOpMode {
 
