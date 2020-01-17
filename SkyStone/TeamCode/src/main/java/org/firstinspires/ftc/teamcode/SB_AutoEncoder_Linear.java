@@ -64,7 +64,7 @@ import org.firstinspires.ftc.teamcode.SB_Push_Robot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SB_Auto_Encoder", group="StarBots")
+@Autonomous(name="SB_Encoder_Test", group="StarBots")
 @Disabled
 public class SB_AutoEncoder_Linear extends LinearOpMode {
 
@@ -179,6 +179,12 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
                 if ((runtime.seconds() < timeoutS) && (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
                     currentInches = robot.leftDrive.getCurrentPosition() / COUNTS_PER_INCH;
+                    telemetry.addData("Inches Traveled", "Current Left Inches Traveled: %7f", currentInches);
+                    telemetry.update();
+
+                    currentInches = robot.rightDrive.getCurrentPosition() / COUNTS_PER_INCH;
+                    telemetry.addData("Inches Traveled", "Current Right Inches Traveled: %7f", currentInches);
+                    telemetry.update();
 
                     if (currentInches < 0) {
                         currentInches = currentInches * -1;
@@ -189,8 +195,8 @@ public class SB_AutoEncoder_Linear extends LinearOpMode {
                     telemetry.addData("Path2", "Running at %7d :%7d",
                             robot.leftDrive.getCurrentPosition(),
                             robot.rightDrive.getCurrentPosition());
-                    telemetry.addData("Inches Traveled", "Current Inches Traveled: %7f", currentInches);
-                    telemetry.update();
+                    //telemetry.addData("Inches Traveled", "Current Right Inches Traveled: %7f", currentInches);
+                    //telemetry.update();
                     if (currentInches >= newLeftTarget) {
                         break;
                     }

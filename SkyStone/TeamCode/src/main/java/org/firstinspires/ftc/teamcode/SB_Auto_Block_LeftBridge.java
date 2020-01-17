@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,11 +48,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Around_Foundation_Blue", group="StarBots")
+@Autonomous(name="Push_Block_Red", group="StarBots")
 //@Disabled
-public class SB_Auto_RightBridge_Foundation_Around extends LinearOpMode {
+public class SB_Auto_Block_LeftBridge extends LinearOpMode {
 
-    // Define OpMode members.
+    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -97,85 +98,41 @@ public class SB_Auto_RightBridge_Foundation_Around extends LinearOpMode {
         robot.setClawMove(true ? 0 : 1.0);              //Open Claw
         Thread.sleep(1000);
 
-        robot.move(0.8, 0.2, 300);      //Go Forward Leftish
-        Thread.sleep(500);
+        robot.move(0.5, 0.5, 400);      //Go Forward
+        Thread.sleep(1200);
 
-        robot.move(0.2, 0.9, 300);      //Go Forward Rightish
-        Thread.sleep(650);
+        robot.move(0.8, 0.2, 100);      //Go Forward Leftish
+        Thread.sleep(400);
+
+        //robot.move(0.2, 0.9, 200);      //Go Forward Rightish
+        //Thread.sleep(300);
+
         robot.move(0.0, 0.0, 100);      //Stop Robot
         robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        Thread.sleep(1000);
-
-        telemetry.addData("Pull Start Time", "%5.2f", getRuntime() );
-        telemetry.update();
-
-        robot.move(-0.25, -0.25, 1000);      //Pull Foundation back
-        Thread.sleep(7000);
-        //robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        //Thread.sleep(3000);
-        robot.move(0.25, 0.25, 500);      //Push Foundation forward little bit
-        Thread.sleep(800);
-        robot.setClawMove(true ? 0 : 1.0);             //Open Claw
-        Thread.sleep(500);
-        robot.move(-0.25, -0.25, 500);      //Go Backward little
-        Thread.sleep(500);
-
-        telemetry.addData("Pull End Time", "%5.2f", getRuntime() );
-        telemetry.update();
-
-        robot.move(-1.0, 1.0, 700);     //Turn Right
-        Thread.sleep(500);
-
-        robot.move(0.5, 0.5, 700);      //Go Forward
-        Thread.sleep(800);
-
-        robot.setClawMove(false ? 0 : 1.0);             //Close Claw
-        Thread.sleep(200);
-
-        robot.move(1.0, -1.0, 800);     //Turn Left
-        Thread.sleep(550);
-
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(2400);
-
-        robot.move(1.0, -1.0, 800);     //Turn Left
-        Thread.sleep(600);
-
-        robot.move(0.5, 0.5, 300);      //Go Forward
-        Thread.sleep(1100);
-
-        robot.move(1.0, -1.0, 800);     //Turn Left
-        Thread.sleep(500);
-
-        robot.move(1.0, 1.0, 300);      //Go Forward and Push Robot
         Thread.sleep(2000);
 
-        //robot.move(0.0, 0.0, 100);      //Stop Robot
-
-        robot.move(-0.5, -0.5, 200);      //Go Backward
+        //robot.move(-0.5, -0.5, 200);      //Go Backward
         //Thread.sleep(200);
 
-        robot.move(0.0, 0.0, 100);      //Stop Robot
-        Thread.sleep(200);
+        robot.move(-0.25, 0.25, 1000);     //Turn Left
+        Thread.sleep(3500);
 
-        robot.move(1.0, -1.0, 500);     //Turn Left
-        Thread.sleep(300);
-
-        //robot.move(0.0, 0.0, 100);      //Stop Robot
-        robot.move(0.5, 0.5, 400);      //Go Forward
-        Thread.sleep(1700);
+        robot.move(0.5, 0.5, 300);      //Go Forward
+        Thread.sleep(2200);
 
         robot.setClawMove(true ? 0 : 1.0);             //Open Claw
-        Thread.sleep(200);
+        Thread.sleep(500);
+        robot.move(-0.5, -0.5, 300);      //Go Backward
+        Thread.sleep(500);
 
-        telemetry.addData("Auto End Time", "%5.2f", getRuntime() );
-        telemetry.update();
-
+        robot.move(0.0, 0.0, 500);      // Stop Robot
+        Thread.sleep(500);
+        robot.setClawMove(true ? 0 : 1.0);             //Open Claw
         // Set the motor to the new power and pause;
         robot.leftDrive.setPower(power);
         robot.rightDrive.setPower(power);
         //armRotate.setPower(power);
         sleep(CYCLE_MS);
         idle();
-        }
+    }
 }

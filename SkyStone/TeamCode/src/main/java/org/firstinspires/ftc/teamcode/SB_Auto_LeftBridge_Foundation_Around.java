@@ -113,9 +113,12 @@ public class SB_Auto_LeftBridge_Foundation_Around extends LinearOpMode {
         Thread.sleep(7000);
         //robot.setClawMove(false ? 0 : 1.0);             //Close Claw
         //Thread.sleep(3000);
+        robot.move(0.25, 0.25, 500);      //Push Foundation forward little bit
+        Thread.sleep(800);
         robot.setClawMove(true ? 0 : 1.0);             //Open Claw
         Thread.sleep(500);
-        robot.move(0.0, 0.0, 100);      //Stop Robot
+        robot.move(-0.25, -0.25, 500);      //Go Backward little
+        Thread.sleep(500);
 
         telemetry.addData("Pull End Time", "%5.2f", getRuntime() );
         telemetry.update();
@@ -159,8 +162,11 @@ public class SB_Auto_LeftBridge_Foundation_Around extends LinearOpMode {
         Thread.sleep(300);
 
         //robot.move(0.0, 0.0, 100);      //Stop Robot
-        robot.move(0.5, 0.5, 300);      //Go Forward
+        robot.move(0.5, 0.5, 400);      //Go Forward
         Thread.sleep(1700);
+
+        robot.setClawMove(true ? 0 : 1.0);             //Close Claw
+        Thread.sleep(200);
 
         telemetry.addData("Auto End Time", "%5.2f", getRuntime() );
         telemetry.update();

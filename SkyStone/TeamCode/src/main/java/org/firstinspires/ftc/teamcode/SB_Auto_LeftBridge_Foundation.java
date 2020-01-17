@@ -103,17 +103,29 @@ public class SB_Auto_LeftBridge_Foundation extends LinearOpMode {
 
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(500);
-        robot.move(-1.0, 1.0, 800);     //Turn Right
+        robot.move(1.0, -1.0, 800);     //Turn Left
         Thread.sleep(500);
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(500);
-        robot.move(1.0, -1.0, 800);     //Turn Left
+        robot.move(-1.0, 1.0, 800);     //Turn Right
         Thread.sleep(550);
         robot.move(0.5, 0.5, 300);      //Go Forward
         Thread.sleep(300);
         robot.move(0.0, 0.0, 100);      //Stop Robot
         robot.setClawMove(false ? 0 : 1.0);             //Close Claw
         Thread.sleep(1500);
+
+        robot.move(-0.5, -0.5, 300);      //Go Forward
+        Thread.sleep(300);
+
+        robot.move(-1.0, 1.0, 800);     //Turn Right
+        Thread.sleep(600);
+
+        robot.move(0.5, 0.5, 300);      //Go Forward
+        Thread.sleep(2700);
+
+        robot.move(-0.5, -0.5, 300);      //Go Forward
+        Thread.sleep(300);
 
         telemetry.addData("Pull Start Time", "%5.2f", getRuntime() );
         telemetry.update();
